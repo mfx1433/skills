@@ -13,6 +13,7 @@
 |-------|------|---------|
 | **web-research** | 高级联网调研方法论 | 问"哪个最好/最新/主流/推荐"、需要联网查证判断时 |
 | **file-notes** | 文件注释与备份说明规范 | 备份文件、产出脚本/配置/数据等需事后能看懂的文件时 |
+| **install-check** | 安装前检查规范 | 安装/升级任何软件工具前（先查是否已装 → 查最新版 → 确认后再装）|
 
 ## 安装
 
@@ -25,6 +26,7 @@ npx skills add mfx1433/skills --all
 # 只装某一个
 npx skills add mfx1433/skills --skill web-research
 npx skills add mfx1433/skills --skill file-notes
+npx skills add mfx1433/skills --skill install-check
 
 # 装到全局（用户级，所有项目可用）
 npx skills add mfx1433/skills --skill web-research -g -y
@@ -41,8 +43,10 @@ npx skills add mfx1433/skills --skill web-research -g -y
 └── skills/
     ├── web-research/
     │   └── SKILL.md           ← 联网调研方法论
-    └── file-notes/
-        └── SKILL.md           ← 文件注释/备份规范
+    ├── file-notes/
+    │   └── SKILL.md           ← 文件注释/备份规范
+    └── install-check/
+        └── SKILL.md           ← 安装前检查规范
 ```
 
 ## Skill 格式说明
