@@ -1,5 +1,7 @@
 # Skills
 
+[![skills.sh](https://skills.sh/b/mfx1433/skills)](https://skills.sh/mfx1433/skills)
+
 > My personal collection of Agent Skills, built on the open [Agent Skills](https://skills.sh/) ecosystem.
 > Author: [@mfx1433](https://github.com/mfx1433) | License: MIT
 >
