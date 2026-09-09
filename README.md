@@ -88,15 +88,17 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 
 ## Installation
 
-### Via skills CLI
+### Via skills CLI (installs the English version)
 
 ```bash
 # list available skills
 npx skills add mfx1433/skills --list
 
-# install one (language selection may be interactive)
+# install one
 npx skills add mfx1433/skills --skill web-research
 ```
+
+> The CLI resolves the English copies under `skills/en/`. For the Chinese version, use the manual copy below.
 
 ### Manually (clone and copy)
 
@@ -215,15 +217,17 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 ## 安装
 
-### 用 skills CLI
+### 用 skills CLI（装的是英文版）
 
 ```bash
 # 列出可用的 skill
 npx skills add mfx1433/skills --list
 
-# 安装某一个（可能需交互选择语言）
+# 安装某一个
 npx skills add mfx1433/skills --skill web-research
 ```
+
+> CLI 解析到的是 `skills/en/` 下的英文版。要中文版，请用下面的手动复制方式。
 
 ### 手动（clone 后复制）
 
