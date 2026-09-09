@@ -2,6 +2,8 @@
 
 > My personal collection of Agent Skills, built on the open [Agent Skills](https://skills.sh/) ecosystem.
 > Author: [@mfx1433](https://github.com/mfx1433) | License: MIT
+>
+> **Bilingual** — every skill ships in both English and Chinese, in separate `en/` and `zh-cn/` folders.
 
 **English** | [中文](#skills-中文)
 
@@ -12,6 +14,8 @@
 A collection of AI Agent Skills I wrote / customized. Each skill is a **reusable set of instructions** — once installed, the agent follows it automatically whenever the situation matches.
 
 The point is not to add features, but to fix **failure modes I kept hitting**: answering from stale memory, leaving unreadable files behind, and installing the same tool twice.
+
+Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/zh-cn/`).
 
 ## Skills
 
@@ -28,7 +32,7 @@ The point is not to add features, but to fix **failure modes I kept hitting**: a
 
 **How to use.** Just ask *"what's the best open-source image model in 2026?"* — it runs the research flow and answers with sources.
 
-→ [SKILL.md](skills/web-research/SKILL.md)
+→ [English](skills/en/web-research/SKILL.md) ｜ [中文](skills/zh-cn/web-research/SKILL.md)
 
 ### file-notes — Make every output self-explanatory
 
@@ -41,7 +45,7 @@ The point is not to add features, but to fix **failure modes I kept hitting**: a
 
 **How to use.** Automatic — whenever the agent backs up or generates files.
 
-→ [SKILL.md](skills/file-notes/SKILL.md)
+→ [English](skills/en/file-notes/SKILL.md) ｜ [中文](skills/zh-cn/file-notes/SKILL.md)
 
 ### install-check — Check before you install
 
@@ -55,44 +59,54 @@ The point is not to add features, but to fix **failure modes I kept hitting**: a
 
 **How to use.** Automatic — before any install/upgrade action.
 
-→ [SKILL.md](skills/install-check/SKILL.md)
-
-## Installation
-
-```bash
-# install all skills
-npx skills add mfx1433/skills --all
-
-# or one at a time
-npx skills add mfx1433/skills --skill web-research
-npx skills add mfx1433/skills --skill file-notes
-npx skills add mfx1433/skills --skill install-check
-
-# install globally (user-level, available in every project)
-npx skills add mfx1433/skills --skill web-research -g -y
-```
-
-No restart needed — the agent's skill-directory watcher picks up new skills automatically.
+→ [English](skills/en/install-check/SKILL.md) ｜ [中文](skills/zh-cn/install-check/SKILL.md)
 
 ## Structure
 
 ```
 .
-├── README.md                  ← this file
-├── LICENSE                    ← MIT
+├── README.md                 ← this file
+├── LICENSE                   ← MIT
 └── skills/
-    ├── web-research/
-    │   ├── SKILL.md           ← Chinese (default)
-    │   └── SKILL.en.md        ← English translation
-    ├── file-notes/
-    │   ├── SKILL.md
-    │   └── SKILL.en.md
-    └── install-check/
-        ├── SKILL.md
-        └── SKILL.en.md
+    ├── en/                   ← English versions
+    │   ├── web-research/
+    │   │   └── SKILL.md
+    │   ├── file-notes/
+    │   │   └── SKILL.md
+    │   └── install-check/
+    │       └── SKILL.md
+    └── zh-cn/                ← Chinese versions (成对的翻译)
+        ├── web-research/
+        │   └── SKILL.md
+        ├── file-notes/
+        │   └── SKILL.md
+        └── install-check/
+            └── SKILL.md
 ```
 
-> Skills are written in Chinese by default (the author's working language). An English translation is provided as `SKILL.en.md` in each folder — rename it to `SKILL.md` to use it as the active skill.
+> English `SKILL.md` files are kept free of Chinese characters; the Chinese wording lives only in the matching `zh-cn/` copy.
+
+## Installation
+
+### Via skills CLI
+
+```bash
+# list available skills
+npx skills add mfx1433/skills --list
+
+# install one (language selection may be interactive)
+npx skills add mfx1433/skills --skill web-research
+```
+
+### Manually (clone and copy)
+
+```bash
+git clone https://github.com/mfx1433/skills.git
+# pick the language you want, e.g. Chinese:
+cp skills/zh-cn/web-research/SKILL.md ~/.agents/skills/web-research/SKILL.md
+```
+
+No restart needed — the agent's skill-directory watcher picks up new skills automatically.
 
 ## Skill format
 
@@ -121,6 +135,8 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 > 自用的 Agent Skills 集合，基于开放的 [Agent Skills](https://skills.sh/) 生态。
 > 作者：[@mfx1433](https://github.com/mfx1433) ｜ 许可：MIT
+>
+> **双语** —— 每个 skill 同时提供英文版和中文版，分别放在 `en/` 和 `zh-cn/` 目录下。
 
 [English](#skills) | **中文**
 
@@ -131,6 +147,8 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 这里存放我写的 / 定制的 AI Agent skill。每个 skill 是一段**可复用的任务指令**——装上后，AI 在合适场景会自动按它执行。
 
 这些 skill 不是为了加功能，而是为了修**我反复踩的坑**：凭旧记忆作答、留下看不懂的文件、同一个工具装两遍。
+
+每个 skill 都提供**英文版**（`skills/en/`）和**中文版**（`skills/zh-cn/`）。
 
 ## 包含的 Skill
 
@@ -147,7 +165,7 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 **怎么用**：直接问"2026 年最好用的开源生图模型是哪个？"——它会自动跑这套流程，并给出带来源的结论。
 
-→ [SKILL.md](skills/web-research/SKILL.md)
+→ [英文](skills/en/web-research/SKILL.md) ｜ [中文](skills/zh-cn/web-research/SKILL.md)
 
 ### file-notes — 让每个产出都能看懂
 
@@ -160,7 +178,7 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 **怎么用**：自动生效——AI 备份或产出文件时会按它执行。
 
-→ [SKILL.md](skills/file-notes/SKILL.md)
+→ [英文](skills/en/file-notes/SKILL.md) ｜ [中文](skills/zh-cn/file-notes/SKILL.md)
 
 ### install-check — 装之前先查
 
@@ -174,44 +192,48 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 **怎么用**：自动生效——任何安装/升级操作之前。
 
-→ [SKILL.md](skills/install-check/SKILL.md)
-
-## 安装
-
-```bash
-# 装全部
-npx skills add mfx1433/skills --all
-
-# 或只装某一个
-npx skills add mfx1433/skills --skill web-research
-npx skills add mfx1433/skills --skill file-notes
-npx skills add mfx1433/skills --skill install-check
-
-# 装到全局（用户级，所有项目可用）
-npx skills add mfx1433/skills --skill web-research -g -y
-```
-
-安装后**无需重启**——AI 的 skill 目录监视器会自动检测到。
+→ [英文](skills/en/install-check/SKILL.md) ｜ [中文](skills/zh-cn/install-check/SKILL.md)
 
 ## 目录结构
 
 ```
 .
-├── README.md                  ← 本文件
-├── LICENSE                    ← MIT 许可
+├── README.md                 ← 本文件
+├── LICENSE                   ← MIT 许可
 └── skills/
-    ├── web-research/
-    │   ├── SKILL.md           ← 中文（默认）
-    │   └── SKILL.en.md        ← 英文翻译
-    ├── file-notes/
-    │   ├── SKILL.md
-    │   └── SKILL.en.md
-    └── install-check/
-        ├── SKILL.md
-        └── SKILL.en.md
+    ├── en/                   ← 英文版
+    │   ├── web-research/SKILL.md
+    │   ├── file-notes/SKILL.md
+    │   └── install-check/SKILL.md
+    └── zh-cn/                ← 中文版（成对的翻译）
+        ├── web-research/SKILL.md
+        ├── file-notes/SKILL.md
+        └── install-check/SKILL.md
 ```
 
-> skill 默认用中文撰写（作者的工作语言）。每个目录另附英文翻译 `SKILL.en.md`——把文件改名为 `SKILL.md` 即可切换为英文版。
+> 英文版的 `SKILL.md` 保持不含中文字符；中文措辞只放在对应的 `zh-cn/` 版本里。
+
+## 安装
+
+### 用 skills CLI
+
+```bash
+# 列出可用的 skill
+npx skills add mfx1433/skills --list
+
+# 安装某一个（可能需交互选择语言）
+npx skills add mfx1433/skills --skill web-research
+```
+
+### 手动（clone 后复制）
+
+```bash
+git clone https://github.com/mfx1433/skills.git
+# 选你要的语言，例如中文：
+cp skills/zh-cn/web-research/SKILL.md ~/.agents/skills/web-research/SKILL.md
+```
+
+安装后**无需重启**——AI 的 skill 目录监视器会自动检测到。
 
 ## Skill 格式说明
 
