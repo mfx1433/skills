@@ -15,7 +15,15 @@
 
 A collection of AI Agent Skills I wrote / customized. Each skill is a **reusable set of instructions** — once installed, the agent follows it automatically whenever the situation matches.
 
-The point is not to add features, but to fix **failure modes I kept hitting**: answering from stale memory, leaving unreadable files behind, and installing the same tool twice.
+## Why these skills
+
+I didn't set out to build a skill collection — I built these three after hitting the same failure modes over and over:
+
+1. **The agent answered from stale memory.** I asked which model was best, and it confidently named something superseded months ago — missing a release from last week entirely.
+2. **The agent left unreadable files behind.** Backups with no notes, scripts with no header — weeks later, nobody knew what they were for.
+3. **The agent installed the same tool twice.** A 7z extractor downloaded twice, while a full 7-Zip install already sat on another drive.
+
+Each skill below is the fix for one of those. They're small, opinionated, and meant to be hacked on.
 
 Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/zh-cn/`).
 
@@ -34,6 +42,9 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 
 **How to use.** Just ask *"what's the best open-source image model in 2026?"* — it runs the research flow and answers with sources.
 
+> **Without it:** "Flux is probably the best open-source image model."
+> **With it:** searches four angles, checks official release pages and community threads, then answers — *"As of 2026-09, FLUX.2 [klein] 9B fits a 12GB card; community consensus is positive"* — with cited sources and flagged uncertainty.
+
 → [English](skills/en/web-research/SKILL.md) ｜ [中文](skills/zh-cn/web-research/SKILL.md)
 
 ### file-notes — Make every output self-explanatory
@@ -46,6 +57,9 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 - Avoids over-commenting: temp files and self-explanatory names don't need essays
 
 **How to use.** Automatic — whenever the agent backs up or generates files.
+
+> **Without it:** a folder of deleted files with no explanation. Six months later: *"can I delete this? what was it?"*
+> **With it:** every backup carries a `README.md` — what it was, why it was removed, and how to restore it.
 
 → [English](skills/en/file-notes/SKILL.md) ｜ [中文](skills/zh-cn/file-notes/SKILL.md)
 
@@ -60,6 +74,9 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 - Install to a predictable location so it can be found next time
 
 **How to use.** Automatic — before any install/upgrade action.
+
+> **Without it:** *"installing 7z…"* — again. The machine already had a full 7-Zip install on another drive.
+> **With it:** checks PATH, common install directories, and the registry first; finds the existing install and just uses it.
 
 → [English](skills/en/install-check/SKILL.md) ｜ [中文](skills/zh-cn/install-check/SKILL.md)
 
@@ -150,7 +167,15 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 这里存放我写的 / 定制的 AI Agent skill。每个 skill 是一段**可复用的任务指令**——装上后，AI 在合适场景会自动按它执行。
 
-这些 skill 不是为了加功能，而是为了修**我反复踩的坑**：凭旧记忆作答、留下看不懂的文件、同一个工具装两遍。
+## 为什么做这些 skill
+
+我本来没打算做 skill 集合——是同一个坑踩了太多次，才做了这三个：
+
+1. **AI 凭旧记忆作答。** 问它哪个模型最好，它自信地说出一个几个月前就被取代的，还完全漏掉上周刚发布的。
+2. **AI 留下看不懂的文件。** 备份没说明、脚本没注释——几周后没人知道它们是干嘛的。
+3. **AI 把同一个工具装两遍。** 7z 解压工具下载了两次，而另一块盘上早就装了完整的 7-Zip。
+
+下面每个 skill 就是针对其中一条的修复。它们很小、有主见、欢迎你改成自己的。
 
 每个 skill 都提供**英文版**（`skills/en/`）和**中文版**（`skills/zh-cn/`）。
 
@@ -169,6 +194,9 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 
 **怎么用**：直接问"2026 年最好用的开源生图模型是哪个？"——它会自动跑这套流程，并给出带来源的结论。
 
+> **没装时**："Flux 应该是最好用的开源生图模型。"
+> **装之后**：从四个角度搜索，查官方发布页和社区讨论，再回答——*"截至 2026-09，FLUX.2 [klein] 9B 能塞进 12GB 显存，社区口碑正面"*——并附来源、标注不确定性。
+
 → [英文](skills/en/web-research/SKILL.md) ｜ [中文](skills/zh-cn/web-research/SKILL.md)
 
 ### file-notes — 让每个产出都能看懂
@@ -181,6 +209,9 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 - 避免过度注释：临时文件、名字已自解释的不必长篇大论
 
 **怎么用**：自动生效——AI 备份或产出文件时会按它执行。
+
+> **没装时**：一堆被删掉的文件没有任何说明。半年后："这能删吗？原来是什么？"
+> **装之后**：每个备份都附带 `README.md`——是什么、为什么删、怎么恢复。
 
 → [英文](skills/en/file-notes/SKILL.md) ｜ [中文](skills/zh-cn/file-notes/SKILL.md)
 
@@ -195,6 +226,9 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 - 装到可预测的位置，方便下次找到
 
 **怎么用**：自动生效——任何安装/升级操作之前。
+
+> **没装时**："正在安装 7z…"——又来一次。机器另一块盘上明明已经装了完整的 7-Zip。
+> **装之后**：先查 PATH、常见安装目录和注册表，发现已有就直接用，不重装。
 
 → [英文](skills/en/install-check/SKILL.md) ｜ [中文](skills/zh-cn/install-check/SKILL.md)
 
