@@ -1,0 +1,27 @@
+feat(install-check): add skill-scan.ps1, demote scoring scanners
+
+Replace the "run a scoring scanner" advice in Step 6 with a purpose-built
+quick-check script shipped inside the skill.
+
+Why: the scoring scanners proved untrustworthy in practice on a real corpus
+of 8 skills. SkillSpector reported OOXML .xsd schemas as "Hidden
+Instructions", documentation prose like `npx skills` as an "unpinned MCP
+server", and the standard `os.environ` copy into a subprocess as "Env
+Variable Harvesting" - net true positives after hand-verification: zero.
+Worse, the score rises when analysis fails, so scores cannot be compared.
+
+The replacement does two things and assigns no score:
+
+- inventory: list executable files (danger can only live there; pure
+  markdown is near-zero risk)
+- locate: surface line numbers matching network egress / subprocess /
+  credentials / sensitive paths / injection phrasing
+
+The human then reads those lines. Prompt injection is a natural-language
+problem that pattern matching structurally cannot solve, so the script's
+job is to make reading take five minutes instead of thirty - not to
+replace reading.
+
+Also record two SkillSpector traps as an appendix (pinned Python 3.12
+needed for yara-python; its LLM mode needs json_schema which the DeepSeek
+API does not support), and update the README for the new scripts/ layout.

@@ -72,8 +72,13 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 - Already installed → use it, never reinstall
 - Not installed → look up the latest version (via `web-research`), pick a package manager, **confirm with the user**, then install
 - Install to a predictable location so it can be found next time
+- **Before installing an agent skill**, vet it with the bundled `scripts/skill-scan.ps1`: inventory its executable files and surface the lines worth reading — no reliance on scoring scanners (their scores proved untrustworthy; a fail actually raises the score)
 
-**How to use.** Automatic — before any install/upgrade action.
+**How to use.** Automatic — before any install/upgrade action. For skill vetting:
+
+```powershell
+.\scripts\skill-scan.ps1 <skill-dir>
+```
 
 > **Without it:** *"installing 7z…"* — again. The machine already had a full 7-Zip install on another drive.
 > **With it:** checks PATH, common install directories, and the registry first; finds the existing install and just uses it.
@@ -93,14 +98,18 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
     │   ├── file-notes/
     │   │   └── SKILL.md
     │   └── install-check/
-    │       └── SKILL.md
+    │       ├── SKILL.md
+    │       └── scripts/
+    │           └── skill-scan.ps1      ← skill vetting helper
     └── zh-cn/                ← Chinese versions (成对的翻译)
         ├── web-research/
         │   └── SKILL.md
         ├── file-notes/
         │   └── SKILL.md
         └── install-check/
-            └── SKILL.md
+            ├── SKILL.md
+            └── scripts/
+                └── skill-scan.ps1
 ```
 
 > English `SKILL.md` files are kept free of Chinese characters; the Chinese wording lives only in the matching `zh-cn/` copy.
@@ -224,8 +233,13 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 - 已装 → 直接用，**绝不重装**
 - 没装 → 查最新版（走 `web-research`）→ 选包管理器 → **经用户确认** → 再装
 - 装到可预测的位置，方便下次找到
+- **装 agent skill 之前**，用自带的 `scripts/skill-scan.ps1` 查一遍：盘点它的可执行文件、把该亲自读的行挑出来——**不依赖评分扫描器**（实测它们的分数不可信，分析失败时分数反而升高）
 
-**怎么用**：自动生效——任何安装/升级操作之前。
+**怎么用**：自动生效——任何安装/升级操作之前。查 skill 用：
+
+```powershell
+.\scripts\skill-scan.ps1 <skill目录>
+```
 
 > **没装时**："正在安装 7z…"——又来一次。机器另一块盘上明明已经装了完整的 7-Zip。
 > **装之后**：先查 PATH、常见安装目录和注册表，发现已有就直接用，不重装。
@@ -242,11 +256,15 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
     ├── en/                   ← 英文版
     │   ├── web-research/SKILL.md
     │   ├── file-notes/SKILL.md
-    │   └── install-check/SKILL.md
+    │   └── install-check/
+    │       ├── SKILL.md
+    │       └── scripts/skill-scan.ps1      ← skill 安全速查脚本
     └── zh-cn/                ← 中文版（成对的翻译）
         ├── web-research/SKILL.md
         ├── file-notes/SKILL.md
-        └── install-check/SKILL.md
+        └── install-check/
+            ├── SKILL.md
+            └── scripts/skill-scan.ps1
 ```
 
 > 英文版的 `SKILL.md` 保持不含中文字符；中文措辞只放在对应的 `zh-cn/` 版本里。

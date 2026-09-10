@@ -1,6 +1,6 @@
 ---
 name: install-check
-description: "Check-before-install conventions for software, tools, dependencies, and agent skills. Use this skill whenever you need to install, download, or upgrade anything (CLI tools, libraries, dependencies, applications, agent skills), or when something is missing and needs installing. Trigger scenarios: install, set up, download, upgrade, update a tool, missing dependency, command not found, install an extractor, install a runtime, install a skill, scan a skill for security. Core requirements: before installing, first check whether it is already present on the machine (if usable, never reinstall); then look up the latest version; choose a sensible method; get user confirmation before acting; install to a predictable location; and scan third-party skills before installing them, verifying every finding by hand. Avoid duplicate installs, outdated versions, unreachable install paths, installing without asking, and installing a skill carrying malicious instructions."
+description: "Check-before-install conventions for software, tools, dependencies, and agent skills. Use this skill whenever you need to install, download, or upgrade anything (CLI tools, libraries, dependencies, applications, agent skills), or when something is missing and needs installing. Trigger scenarios: install, set up, download, upgrade, update a tool, missing dependency, command not found, install an extractor, install a runtime, install a skill, vet a skill, check a skill for security. Core requirements: before installing, first check whether it is already present on the machine (if usable, never reinstall); then look up the latest version; choose a sensible method; get user confirmation before acting; install to a predictable location; and vet third-party skills before installing them by inventorying executable files and surfacing the lines worth reading (no reliance on scoring scanners). Avoid duplicate installs, outdated versions, unreachable install paths, installing without asking, and installing a skill carrying malicious instructions."
 ---
 
 # Check-Before-Install Conventions
@@ -78,37 +78,44 @@ In priority order:
 - If you install something outside PATH, **note its path** for the user so it's reusable later.
 - Optional: keep an installed-tools list (e.g. `installed-tools.md`) recording what was installed, the version, the path, and why.
 
-### Step 6: Scan an agent skill before installing it
+### Step 6: Vet an agent skill before installing it
 
 Commands like `npx skills add` install a skill with **no security review at all**. And a skill is a set of **instructions that run with full agent permissions** — a malicious one can read your files, execute commands, and exfiltrate data. (Snyk's 2026 research found prompt-injection problems in 36% of skills.)
 
-So **scan third-party skills before installing them**:
+**Use the quick-check script shipped with this skill** — it assigns no score and reaches no verdict; it just surfaces the lines you should read:
 
 ```powershell
-# NVIDIA SkillSpector (Apache-2.0, offline static scan, no account needed)
-skillspector scan "<skill-dir>" --no-llm
-# Scan every skill under a directory
-skillspector scan "<skills-dir>" --recursive --no-llm
+.\scripts\skill-scan.ps1 <skill-dir>
+# e.g.  .\scripts\skill-scan.ps1 "$HOME\.agents\skills\some-skill"
+# cap each category:  add -MaxPerCategory 3
 ```
 
-⚠️ **But you must verify every finding by hand — never judge from the score alone.** Static mode has a high false-positive rate. Known patterns:
+It does exactly two things:
 
-| False positive | Triggered by | Example |
-|---|---|---|
-| Non-code file read as instructions | Files with XML / schema / data | OOXML `.xsd` → "Hidden Instructions" |
-| Documentation read as configuration | Prose containing command-shaped text | `npx skills` → "unpinned MCP server" |
-| Standard practice read as risk | Copying `os.environ` into a subprocess | Normal pattern → "Env Variable Harvesting" |
+1. **Inventory** — does this skill contain **executable files**? (Danger can only live there; pure markdown is near-zero risk.)
+2. **Locate** — pick out the **line numbers** involving **network egress / subprocess / credentials / sensitive paths / injection phrasing**.
 
-**How to read the result:**
+Then **you read those few lines** and ask only two questions:
 
-- The score measures **how large the risk surface is**, not **whether it is malicious**. An official skill can score 100/100 and be labelled `DO NOT INSTALL`.
-- **Open the source for every finding.** Most findings at 60–70% confidence are false positives.
-- In the end, ask only two questions: **does it exfiltrate data? does it do things the user did not ask for?**
+- Does it **send data or credentials somewhere**?
+- Does it **do things the user did not ask for** (edit config, install things, delete files)?
 
-**⚠️ Gotcha when installing SkillSpector itself**: it depends on `yara-python`, which has **no wheel for Python 3.14**. Installing with system Python 3.14 falls back to a source build and fails with "Microsoft Visual C++ 14.0 is required". Pin Python 3.12 or 3.13:
+**Why not just use a scoring scanner** (e.g. NVIDIA SkillSpector): its scores are not trustworthy in practice — it reports OOXML `.xsd` schemas as "Hidden Instructions", documentation prose like `npx skills` as an "unpinned MCP server", and the standard `os.environ` copy into a subprocess as "Env Variable Harvesting". Worse, **the score goes UP when analysis fails**, so scores cannot be compared across runs. (Its one remaining use: sorting which of dozens of skills to look at first.)
 
-```powershell
-uv tool install --python 3.12 "git+https://github.com/NVIDIA/skillspector.git"
+**Root cause**: prompt injection is a **natural-language problem**; pattern matching structurally cannot catch a deliberately wrapped injection. **Reading the thing is what actually works** — the script's job is to make that take five minutes instead of thirty.
+
+#### Appendix: if you still want SkillSpector, know these two traps
+
+```
+1. Pinned Python required
+   It depends on yara-python, which has NO wheel for Python 3.14. Installing with
+   system Python 3.14 falls back to a source build and fails with
+   "Microsoft Visual C++ 14.0 is required".
+   uv tool install --python 3.12 "git+https://github.com/NVIDIA/skillspector.git"
+
+2. Its LLM mode does not work on DeepSeek
+   It needs structured output via json_schema, but the DeepSeek API only supports
+   json_object. Result: 5/5 LLM calls fail and the report degrades to static-only.
 ```
 
 ## Common pitfalls
