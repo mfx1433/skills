@@ -1,6 +1,6 @@
 ---
 name: file-notes
-description: "File annotation and backup-note conventions. Use this skill whenever you need to back up files/directories, back up before deleting or moving anything, create scripts/configs/data/output files, or produce any file that might be unintelligible later. Trigger scenarios: backup, before moving to trash, organizing a directory, deleting files, generating scripts (.ps1/.sh/.py), generating config/data/log files, producing result files, archiving, packaging. Core requirement: every backup ships with an explanatory note, and every produced file carries enough comments that a human (or a future AI) can tell what it is, why it exists, and how to use it. Skip for purely temporary intermediate files, or when the user explicitly says no comments are needed."
+description: "File annotation and backup-note conventions. Use this skill whenever you need to back up files/directories, back up before deleting or moving anything, create scripts/configs/data/output files, or produce any file that might be unintelligible later. Trigger scenarios: backup, before moving to trash, organizing a directory, deleting files, generating scripts (.ps1/.sh/.py), generating config/data/log files, producing result files, archiving, packaging, wrapping up a task and cleaning up. Core requirement: every backup ships with an explanatory note, and every produced file carries enough comments that a human (or a future AI) can tell what it is, why it exists, and how to use it; also skip files you can avoid creating, never save a near-duplicate (>90% identical) of an existing file, and inventory your outputs at wrap-up and ask the user whether to clean them up. Skip for purely temporary intermediate files, or when the user explicitly says no comments are needed."
 ---
 
 # File Annotation & Backup-Note Conventions
@@ -91,12 +91,34 @@ Avoid over-commenting and creating noise. These can be skipped or kept minimal:
 
 The measure: **add notes when they clearly help; skip when they'd be pure noise.**
 
+### Rule 4: Decide whether to create the file at all, before deciding how to annotate it
+
+Rules 1–3 all **assume the file already exists**. But the more common waste is **creating files that never should have existed**.
+
+**Before creating a file, ask three questions:**
+
+1. **Can it be skipped?** — Can this go into an existing doc, or straight into the answer?
+2. **Can it be reused?** — Edit an existing file instead of creating a near-copy.
+3. **Is it >90% identical to something that already exists?** — Then **do not save a second copy**. Put the difference in the documentation instead (e.g. "swap dropdowns ①② to `xxx`").
+
+**When the task wraps up, take stock:**
+
+- List every file this task produced
+- Mark which are **one-off**: installers, transient logs, spent scripts, files superseded by a later version
+- **Ask the user whether to clean them up** — never delete unilaterally
+
+**Why this rule exists**: annotation conventions govern "what you keep must be understandable" — they say nothing about **whether you should keep it**. Doing only the former gives you "every file beautifully commented, and far too many files to want to read" — **bloated *and* confusing**. Do both and the output is **few and clear**.
+
+**A real example**: three variants of the same workflow were each saved as their own JSON. Two were **95.5% byte-identical**, differing only in one model name. The right move was one file plus a line in the docs: "swap these two dropdowns."
+
 ## Workflow
 
 1. **Identify the operation**: is this "backup/delete" or "produce a file"?
-2. **Backup case** → back up first, then write a `README.md` note in the backup directory (Rule 1).
-3. **Produce case** → judge "will this be understandable later?"; if not, add comments/notes (Rule 2).
-4. **Self-check**: afterwards ask — "opening this in three months, would I get it?" If not, add it.
+2. **First decide whether to create a file at all** (Rule 4): skip if you can, reuse if you can, never save a >90%-identical copy.
+3. **Backup case** → back up first, then write a `README.md` note in the backup directory (Rule 1).
+4. **Produce case** → judge "will this be understandable later?"; if not, add comments/notes (Rule 2).
+5. **Self-check**: afterwards ask — "opening this in three months, would I get it?" If not, add it.
+6. **Wrap-up inventory** (Rule 4): list what was produced, flag the one-off files, ask the user whether to clean up.
 
 ## Notes
 
@@ -104,7 +126,12 @@ The measure: **add notes when they clearly help; skip when they'd be pure noise.
 - **Write the "why"**, not just the "what" — the reason often matters more than the content (e.g. "removed because the upstream repo no longer exists").
 - **Write full paths** so they can be copy-pasted to restore.
 - **Chinese or English is fine** — match the user's working language.
+- **Creating fewer files matters more than writing more comments**: an unnecessary file is a burden no matter how well annotated.
 
 ## Reminder for the model
 
-This skill is a **habit convention** for keeping outputs understandable — it does not mean writing essays for every file. The core is one sentence: **backups carry notes, outputs stay understandable; useful when it helps, skipped when it's noise.**
+This skill is a **habit convention** for keeping outputs understandable — it does not mean writing essays for every file.
+
+Two core sentences:
+1. **Backups carry notes, outputs stay understandable** — useful when it helps, skipped when it's noise.
+2. **Don't create it if you can avoid it; if you do, make it understandable** — few and clear beats complete and unreadable.
