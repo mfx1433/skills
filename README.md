@@ -39,6 +39,10 @@ Every skill is provided in **English** (`skills/en/`) and **Chinese** (`skills/z
 - Traces claims back to **primary sources** (official docs, release pages, APIs), not second-hand blog posts
 - Checks community sentiment and adoption; cross-verifies across independent sources
 - Delivers a recommendation with cited sources and explicit uncertainty
+- **Runs on a budget** (light ≤6 / medium ≤15 / heavy ≤30 retrieval calls) and **stops at the cap**, answering from what it has and labelling the gaps — instead of searching until the context or the account balance runs out
+- **Knows when *not* to run this flow**: stable common knowledge, timeless everyday advice ("where should I travel"), one-line lookups, and local file/command work are answered directly — with 1–2 searches at most if the web is genuinely needed
+- **Constrains sub-agents** when it does delegate: no recursion, and an explicit call cap written into each sub-agent's prompt
+- **Tells "no such information" apart from "this site needs a proxy"** — when an overseas site is unreachable it reports the proxy problem to you (which site, what symptom, what to do), instead of silently filing it as "not found"
 
 **How to use.** Just ask *"what's the best open-source image model in 2026?"* — it runs the research flow and answers with sources.
 
@@ -200,6 +204,10 @@ MIT License — see [LICENSE](LICENSE). Free to use, modify, and distribute.
 - 关键结论**追溯到一手来源**（官方文档、发布页、API），不轻信二手文章
 - 查**社区口碑和采用度**，多个独立来源交叉核对
 - 给出**带来源的推荐**，并明确标注不确定性
+- **带预算执行**（轻 ≤6 / 中 ≤15 / 重 ≤30 次检索调用），**到上限就停**，用现有材料作答并标注缺口——而不是一路搜到上下文或账户余额耗尽
+- **知道什么时候不该跑这套流程**：稳定常识、无需时效的生活建议（"国庆去哪玩"）、一行事实查询、以及本地文件/命令操作，都直接作答；真需要上网时最多搜 1–2 次
+- 真要派子代理时**会加上约束**：禁止递归，并且把调用上限写进每个子代理的提示里
+- **把"没这条信息"和"这个站需要梯子"分开**：境外站点连不上时明确提醒你挂梯子（哪个站、什么症状、要你做什么），而不是静默记成"未查到"
 
 **怎么用**：直接问"2026 年最好用的开源生图模型是哪个？"——它会自动跑这套流程，并给出带来源的结论。
 
